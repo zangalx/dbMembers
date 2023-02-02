@@ -28,6 +28,14 @@ public class Record {
 	public String toString(){
 		return 	new String (record);
 	}
+
+	public int deleteCharAt(int pos){
+		if (record[pos] != '-'){
+			record[pos] = '-';
+			return 1;
+		}
+		return -1;
+	}
 	
 	/**
 	 * Get the attribute with the attrNum number

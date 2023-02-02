@@ -73,6 +73,21 @@ public class MitgliederDB implements Iterable<Record>
 		}
 		return result;
 	}
+
+	/**
+	 * Returns the number of Records till a specific block
+	 * @return number of records stored in the blocks before
+	 */
+	public int getNumberOfRecordsTillBlock(int blocknumber){
+		int result = 0;
+		int currentBlock = 0;
+		for (DBBlock currBlock: db){
+			result += currBlock.getNumberOfRecords();
+			if (currentBlock == blocknumber) return result;
+			currentBlock ++;
+		}
+		return result;
+	}
 	
 	/**
 	 * Returns the block number of the given record number 
@@ -102,8 +117,13 @@ public class MitgliederDB implements Iterable<Record>
 	 * @return the record matching the search term
 	 */
 	public Record read(int recNum){
-		//TODO implement
-		return null;
+		int blocknumber = getBlockNumOfRecord(recNum);
+		int recordsInBlocksBefore = 0;
+		if (blocknumber != 0) {
+			recordsInBlocksBefore = getNumberOfRecordsTillBlock(blocknumber - 1);
+		}
+		DBBlock searchedBlock = getBlock(blocknumber);
+		return searchedBlock.getRecord(recNum-recordsInBlocksBefore);
 	}
 	
 	/**
@@ -112,7 +132,14 @@ public class MitgliederDB implements Iterable<Record>
 	 * @return the number of the record in the DB -1 if not found
 	 */
 	public int findPos(String searchTerm){
-		//TODO implement
+		int numberOfRecords = getNumberOfRecords();
+		Record record;
+		for (int i = 1; i < numberOfRecords; i++){
+			record = read(i);
+			if (record.getAttribute(1).equals(searchTerm)) {
+				return i;
+			}
+		}
 		return -1;
 	}
 	
@@ -131,6 +158,29 @@ public class MitgliederDB implements Iterable<Record>
 	 * @param numRecord number of the record to be deleted
 	 */
 	public void delete(int numRecord){
+
+		Record searchedRecord = read(numRecord);
+		for (int j = 0; j < searchedRecord.length(); j++) {
+			searchedRecord.deleteCharAt(j);
+		}
+		//TODO
+		/*
+		for (int i = 1; i < numberOfRecords; i++){
+
+			record = read(i);
+			record.getNumOfAttributes();
+			record.length();
+
+		}
+		*/
+		/*
+		int blocknumber = getBlockNumOfRecord(numRecord);
+		DBBlock block = getBlock(blocknumber);
+		for(int i = 0; i < block.getNumberOfRecords(); i++){
+			block.getRecord(i);
+		}
+		*/
+
 		//TODO implement
 	}
 	

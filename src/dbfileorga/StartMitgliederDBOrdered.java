@@ -16,7 +16,8 @@ public class StartMitgliederDBOrdered {
 			//find and read a record with a given Mitgliedesnummer e.g 95 / without binary search
 			rec = db.read(db.findPos("95"));
 			System.out.println(rec);
-	
+
+			/*
 			//modify (ID95 Steffi Brahms wird zu ID 95 Steffi Bach)
 			db.modify(db.findPos("95"), new Record("95;3;13;Bach;Steffi;04.04.06;01.02.16;;5"));
 			System.out.println(db.read(db.findPos("95")));
@@ -24,7 +25,7 @@ public class StartMitgliederDBOrdered {
 			//delete the record with Mitgliedsnummer 97 (97;1;65;Krapp;Theo;10.10.87;01.03.07;115;25) 
 			db.delete(db.findPos("97"));
 			System.out.println(db);
-			
+			*/
 			
 	}
 

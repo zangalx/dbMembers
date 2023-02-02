@@ -10,7 +10,7 @@ public class DBBlock implements Iterable<Record> {
 	public final static char DEFCHAR =  '\u0000';
 	
 	private char block[] = new char[BLOCKSIZE];
-			
+
 	/**
 	 * Searches the record with number recNum in the DBBlock. 
 	 * @param  RecNum is the number of Record 1 = first record
@@ -28,8 +28,18 @@ public class DBBlock implements Iterable<Record> {
 		}
 		return null;
 	}
-	
-	
+
+	public int getPositionOfSearchedRecord(String searchTerm){
+		int count = 0;
+		for (int i = 0; i <block.length;++i){
+			if (block[i] == RECDEL){
+				count++;
+			}
+		}
+
+		return count;
+	}
+
 	private Record getRecordFromBlock(int startPos) {
 		int endPos = getEndPosOfRecord(startPos);
 		if (endPos != -1){ 
@@ -50,8 +60,7 @@ public class DBBlock implements Iterable<Record> {
 		}
 		return -1;
 	}
-	
-	
+
 	/**
 	 * Returns the number of records that are in the block
 	 * @return number of records stored in this DBBlock
@@ -83,7 +92,6 @@ public class DBBlock implements Iterable<Record> {
 	public void delete(){
 		block = new char[BLOCKSIZE];
 	}
-	
 
 	/**
 	 * Inserts an record beginning at position startPos
@@ -104,9 +112,6 @@ public class DBBlock implements Iterable<Record> {
 		block[n+startPos]= RECDEL;
 		return n+startPos;
 	}
-
-	
-
 
 	private int findEmptySpace(){
 		for (int i = 0; i <block.length;++i){
