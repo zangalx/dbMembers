@@ -15,7 +15,7 @@ public class StartMitgliederDB {
 			System.out.println("Gesuchter Eintrag anhand Position: " + rec);
 			
 			//find and read a record with a given Mitgliedesnummer e.g 95
-			rec = db.read(db.findPos("95"));
+			rec = db.read(db.findPos("125"));
 			if (rec == null) {System.out.println("Mitglied mit gesuchter Nummer nicht vorhanden!");}
 			else {System.out.println("Gesuchter Eintrag anhand Mitgliedsnummer: " + rec);}
 
@@ -30,7 +30,7 @@ public class StartMitgliederDB {
 			 */
 
 			//delete the record with Mitgliedsnummer 95 
-			db.delete(db.findPos("95"));
+			db.delete(db.findPos("125"));
 			System.out.println(db);
 			
 			

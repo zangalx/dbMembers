@@ -1,5 +1,6 @@
 package dbfileorga;
 
+import java.sql.SQLOutput;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -118,12 +119,17 @@ public class MitgliederDB implements Iterable<Record>
 	 */
 	public Record read(int recNum){
 		int blocknumber = getBlockNumOfRecord(recNum);
+		int recordsInBlocksBefore = recordsInBlockBefore(blocknumber);
+		DBBlock searchedBlock = getBlock(blocknumber);
+		return searchedBlock.getRecord(recNum-recordsInBlocksBefore);
+	}
+
+	public int recordsInBlockBefore (int blocknumber){
 		int recordsInBlocksBefore = 0;
 		if (blocknumber != 0) {
 			recordsInBlocksBefore = getNumberOfRecordsTillBlock(blocknumber - 1);
 		}
-		DBBlock searchedBlock = getBlock(blocknumber);
-		return searchedBlock.getRecord(recNum-recordsInBlocksBefore);
+		return recordsInBlocksBefore;
 	}
 	
 	/**
@@ -134,7 +140,7 @@ public class MitgliederDB implements Iterable<Record>
 	public int findPos(String searchTerm){
 		int numberOfRecords = getNumberOfRecords();
 		Record record;
-		for (int i = 1; i < numberOfRecords; i++){
+		for (int i = 1; i <= numberOfRecords; i++){
 			record = read(i);
 			if (record.getAttribute(1).equals(searchTerm)) {
 				return i;
@@ -150,6 +156,8 @@ public class MitgliederDB implements Iterable<Record>
 	 */
 	public int insert(Record record){
 		//TODO implement
+
+
 		return -1;
 	}
 	
@@ -159,29 +167,14 @@ public class MitgliederDB implements Iterable<Record>
 	 */
 	public void delete(int numRecord){
 
-		Record searchedRecord = read(numRecord);
-		for (int j = 0; j < searchedRecord.length(); j++) {
-			searchedRecord.deleteCharAt(j);
-		}
-		//TODO
-		/*
-		for (int i = 1; i < numberOfRecords; i++){
+		int blockNum = getBlockNumOfRecord(numRecord);
+		int recordsInBlocksBefore = recordsInBlockBefore(blockNum);
 
-			record = read(i);
-			record.getNumOfAttributes();
-			record.length();
+		int startPos = this.db[blockNum].getStartPosOfRecord(numRecord-recordsInBlocksBefore);
+		int endPos = this.db[blockNum].getEndPosOfRecord(startPos+1);
 
-		}
-		*/
-		/*
-		int blocknumber = getBlockNumOfRecord(numRecord);
-		DBBlock block = getBlock(blocknumber);
-		for(int i = 0; i < block.getNumberOfRecords(); i++){
-			block.getRecord(i);
-		}
-		*/
+		this.db[blockNum].deleteRecord(startPos,endPos);
 
-		//TODO implement
 	}
 	
 	/**
