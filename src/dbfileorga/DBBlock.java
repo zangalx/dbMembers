@@ -13,7 +13,7 @@ public class DBBlock implements Iterable<Record> {
 
 	/**
 	 * Searches the record with number recNum in the DBBlock. 
-	 * @param  RecNum is the number of Record 1 = first record
+	 * @param  recNum is the number of Record 1 = first record
 	 * @return record with the specified number or null if record was not found 
 	 */
 	public Record getRecord(int recNum){
@@ -31,8 +31,8 @@ public class DBBlock implements Iterable<Record> {
 
 	public int getPositionOfSearchedRecord(String searchTerm){
 		int count = 0;
-		for (int i = 0; i <block.length;++i){
-			if (block[i] == RECDEL){
+		for (char c : block) {
+			if (c == RECDEL) {
 				count++;
 			}
 		}
@@ -83,8 +83,8 @@ public class DBBlock implements Iterable<Record> {
 	 */	
 	public int getNumberOfRecords(){
 		int count = 0;
-		for (int i = 0; i <block.length;++i){
-			if (block[i] == RECDEL){
+		for (char c : block) {
+			if (c == RECDEL) {
 				count++;
 			}
 		}
@@ -92,7 +92,7 @@ public class DBBlock implements Iterable<Record> {
 	}
 	
 	/**
-	 * Inserts an record at the end of the block
+	 * Inserts a record at the end of the block
 	 * @param record the record to insert
 	 * @return returns the last position (the position of the RECDEL char) of the inserted record 
 	 * 		   returns -1 if the insert fails
@@ -119,7 +119,7 @@ public class DBBlock implements Iterable<Record> {
 	}
 
 	/**
-	 * Inserts an record beginning at position startPos
+	 * Inserts a record beginning at position startPos
 	 * @param startPos the postition to start inserting the record
 	 * @param record the record to insert
 	 * @return returns the last position (the position of the RECDEL char) of the inserted record 
@@ -150,16 +150,16 @@ public class DBBlock implements Iterable<Record> {
 	@Override
 	public String toString(){
 		String result = new String();
-		for (int i = 0; i <block.length;++i){
-			if (block[i] == DEFCHAR){
+		for (char c : block) {
+			if (c == DEFCHAR) {
 				return result;
 			}
-			if (block[i] == RECDEL){
+			if (c == RECDEL) {
 				result += "\n";
-			}else{
-				result += block[i];
+			} else {
+				result += c;
 			}
-			
+
 		}
 		return result; 
 	}
@@ -173,17 +173,14 @@ public class DBBlock implements Iterable<Record> {
 	
 	
 	private class BlockIterator implements Iterator<Record> {
-	    private int currRec=0;
+	    private int currRec;
  
 	    public  BlockIterator() {
             this.currRec = 0;
         }
 	    
         public boolean hasNext() {
-            if ( getRecord(currRec+1) != null)
-                return true;
-            else
-                return false;
+			return getRecord(currRec + 1) != null;
         }
  
         public Record next() {
