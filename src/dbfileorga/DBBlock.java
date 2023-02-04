@@ -105,8 +105,8 @@ public class DBBlock implements Iterable<Record> {
 	public void deleteRecord(int startpos, int endpos){
 		int currPos = startpos;
 		if(startpos!=0) currPos++;
-		while (currPos < endpos){
-			block[currPos] = ' ';
+		while (currPos <= endpos){
+			block[currPos] = DEFCHAR;
 			currPos++;
 		}
 	}

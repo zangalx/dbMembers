@@ -1,10 +1,8 @@
 package dbfileorga;
 
-import java.sql.SQLOutput;
-
 public class StartMitgliederDB {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 			MitgliederDB db = new MitgliederDB(false);
 			System.out.println(db);
 			
@@ -13,17 +11,18 @@ public class StartMitgliederDB {
 			// read the a record number e.g. 32 (86;3;13;Brutt;Jasmin;12.12.04;01.01.16;;7,5)
 			Record rec = db.read(32);
 			System.out.println("Gesuchter Eintrag anhand Position: " + rec);
+			Thread.sleep(2000);
 			
 			//find and read a record with a given Mitgliedesnummer e.g 95
 			rec = db.read(db.findPos("125"));
 			if (rec == null) {System.out.println("Mitglied mit gesuchter Nummer nicht vorhanden!");}
 			else {System.out.println("Gesuchter Eintrag anhand Mitgliedsnummer: " + rec);}
+			Thread.sleep(2000);
 
-		db.delete(db.findPos("68"));
 			//insert Hans Meier
-		db.insert(new Record("122;2;44;Meier;Hans;174445344"));
 			int newRecNum = db.insert(new Record("122;2;44;Meier;Hans;07.05.01;01.03.10;120;15"));
-			System.out.println(db.read(newRecNum));
+			System.out.println("An Position " + newRecNum + " eingefuegter Datensatz: " + db.read(newRecNum));
+			Thread.sleep(2000);
 
 			/*
 			//modify (ID95 Steffi Brahms wird zu ID 95 Steffi Bach)
@@ -32,7 +31,7 @@ public class StartMitgliederDB {
 			 */
 
 			//delete the record with Mitgliedsnummer 95 
-			//db.delete(db.findPos("125"));
+			db.delete(db.findPos("125"));
 			System.out.println(db);
 			
 			
