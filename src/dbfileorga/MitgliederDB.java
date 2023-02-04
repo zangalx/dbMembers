@@ -155,10 +155,17 @@ public class MitgliederDB implements Iterable<Record>
 	 * @return the record number of the inserted record
 	 */
 	public int insert(Record record){
-		//TODO implement
+		int length = record.length();
+		for (DBBlock currBlock: db){
+			int position = currBlock.findSpace(length);
+			if (position >= 0) {
+				currBlock.insertRecordAtPos(position, record);
+				return findPos(record.getAttribute(1));
 
-
-		return -1;
+			}
+		}
+		appendRecord(record);
+		return findPos(record.getAttribute(1));
 	}
 	
 	/**

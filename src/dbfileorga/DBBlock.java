@@ -103,12 +103,50 @@ public class DBBlock implements Iterable<Record> {
 	}
 
 	public void deleteRecord(int startpos, int endpos){
+		/*
+		if(getNumberOfRecords() == getRecordNumberInBlock(endpos+1)){
+			block[endpos] = ' ';
+		}
+		*/
+
 		int currPos = startpos;
 		if(startpos!=0) currPos++;
-		while (currPos < endpos){
-			block[currPos] = ' ';
+		while (currPos <= endpos){
+			block[currPos] = DEFCHAR;
 			currPos++;
 		}
+	}
+
+	public int getRecordNumberInBlock(int charPosition){
+		int count = 0;
+		for (int i = 0; i <charPosition;++i){
+			if (block[i] == RECDEL){
+				count++;
+			}
+		}
+		return count;
+	}
+	public int findSpace(int length) {
+		//TODO
+		int currPos = 0;
+		int space = 0;
+		while(currPos < block.length){
+			if (block[currPos]==' ' || block[currPos] == DEFCHAR){
+				space++;
+
+				if(space >= length){
+					return currPos-space+1;
+				}
+				currPos++;
+				continue;
+			}
+			if (block[currPos]!=' '){
+				space=0;
+			}
+			currPos++;
+		}
+
+		return -1;
 	}
 	
 	/**
@@ -125,7 +163,7 @@ public class DBBlock implements Iterable<Record> {
 	 * @return returns the last position (the position of the RECDEL char) of the inserted record 
 	 * 		   returns -1 if the insert fails
 	 */	
-	private int insertRecordAtPos(int startPos, Record record) {
+	public int insertRecordAtPos(int startPos, Record record) {
 		//we need to insert the record plus the RECDEL 
 		int n = record.length();
 		if (startPos+n+1 > block.length){
@@ -151,15 +189,15 @@ public class DBBlock implements Iterable<Record> {
 	public String toString(){
 		String result = new String();
 		for (int i = 0; i <block.length;++i){
+
 			if (block[i] == DEFCHAR){
-				return result;
+				 continue;
 			}
 			if (block[i] == RECDEL){
 				result += "\n";
 			}else{
 				result += block[i];
 			}
-			
 		}
 		return result; 
 	}
