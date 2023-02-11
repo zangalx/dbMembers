@@ -6,11 +6,10 @@ public class StartMitgliederDB {
 			MitgliederDB db = new MitgliederDB(false);
 			System.out.println(db);
 			
-			// TODO test your implementation with the following use cases
-			
 			// read the a record number e.g. 32 (86;3;13;Brutt;Jasmin;12.12.04;01.01.16;;7,5)
-			Record rec = db.read(32);
-			System.out.println("Gesuchter Eintrag anhand Position: " + rec);
+			Record rec = db.read(1);
+			if (rec == null) {System.out.println("Mitglied mit gesuchter Position nicht vorhanden!");}
+			else {System.out.println("Gesuchter Eintrag anhand Position: " + rec);}
 			Thread.sleep(2000);
 			
 			//find and read a record with a given Mitgliedesnummer e.g 95
@@ -32,7 +31,7 @@ public class StartMitgliederDB {
 
 			//delete the record with Mitgliedsnummer 95 
 			db.delete(db.findPos("125"));
-			System.out.println(db);
+			System.out.println("\n" + db);
 			
 			
 	}

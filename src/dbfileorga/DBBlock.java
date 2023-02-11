@@ -122,7 +122,6 @@ public class DBBlock implements Iterable<Record> {
 		return count;
 	}
 	public int findSpace(int length) {
-		//TODO
 		int currPos = 0;
 		int space = 0;
 		while(currPos < block.length){

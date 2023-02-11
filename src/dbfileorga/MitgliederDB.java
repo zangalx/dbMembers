@@ -118,6 +118,7 @@ public class MitgliederDB implements Iterable<Record>
 	 */
 	public Record read(int recNum){
 		int blocknumber = getBlockNumOfRecord(recNum);
+		if (blocknumber == -1) return null;
 		int recordsInBlocksBefore = recordsInBlockBefore(blocknumber);
 		DBBlock searchedBlock = getBlock(blocknumber);
 		return searchedBlock.getRecord(recNum-recordsInBlocksBefore);
