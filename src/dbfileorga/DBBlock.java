@@ -29,6 +29,11 @@ public class DBBlock implements Iterable<Record> {
 		return null;
 	}
 
+	/**
+	 * Searches the position of searched record in the DBBlock
+	 * @param searchTerm is searched term
+	 * @return the position of searched record in the DBBlock
+	 */
 	public int getPositionOfSearchedRecord(String searchTerm){
 		int count = 0;
 		for (int i = 0; i <block.length;++i){
@@ -61,6 +66,11 @@ public class DBBlock implements Iterable<Record> {
 		return -1;
 	}
 
+	/**
+	 * Searches start position of record in DBBlock
+	 * @param recNumInBlock is the searched record in DBBlock
+	 * @return the start position of record with specified number or null if record was not found
+	 */
 	public int getStartPosOfRecord(int recNumInBlock){
 		int currPos = 0;
 		int currRec = 1;
@@ -92,7 +102,7 @@ public class DBBlock implements Iterable<Record> {
 	}
 	
 	/**
-	 * Inserts an record at the end of the block
+	 * Inserts a record at the end of the block
 	 * @param record the record to insert
 	 * @return returns the last position (the position of the RECDEL char) of the inserted record 
 	 * 		   returns -1 if the insert fails
@@ -101,6 +111,7 @@ public class DBBlock implements Iterable<Record> {
 		int startPos = findEmptySpace();
 		return insertRecordAtPos(startPos, record);
 	}
+
 
 	public void deleteRecord(int startpos, int endpos){
 		/*
