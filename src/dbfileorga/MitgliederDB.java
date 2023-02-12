@@ -124,6 +124,11 @@ public class MitgliederDB implements Iterable<Record>
 		return searchedBlock.getRecord(recNum-recordsInBlocksBefore);
 	}
 
+	/**
+	 * Counts all records till the record in the searched block
+	 * @param blocknumber is the block from the searched record
+	 * @return the number of the records in the blocks before
+	 */
 	public int recordsInBlockBefore (int blocknumber){
 		int recordsInBlocksBefore = 0;
 		if (blocknumber != 0) {

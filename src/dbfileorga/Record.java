@@ -29,6 +29,11 @@ public class Record {
 		return 	new String (record);
 	}
 
+	/**
+	 * deletes every character of a record on the position
+	 * @param pos position of the record to be deleted
+	 * @return returns 1 if the deleting was successful or -1 if it was not successful
+	 */
 	public int deleteCharAt(int pos){
 		if (record[pos] != '-'){
 			record[pos] = '-';

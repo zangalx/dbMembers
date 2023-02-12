@@ -102,6 +102,11 @@ public class DBBlock implements Iterable<Record> {
 		return insertRecordAtPos(startPos, record);
 	}
 
+	/**
+	 * Deletes all characters from a record
+	 * @param startpos start of a record
+	 * @param endpos end of a record
+	 */
 	public void deleteRecord(int startpos, int endpos){
 		/*
 		if(getNumberOfRecords() == getRecordNumberInBlock(endpos+1)){
@@ -117,6 +122,11 @@ public class DBBlock implements Iterable<Record> {
 		}
 	}
 
+	/**
+	 * searched record number in block
+	 * @param charPosition is the start of the searched block
+	 * @return number of records before the searched record
+	 */
 	public int getRecordNumberInBlock(int charPosition){
 		int count = 0;
 		for (int i = 0; i <charPosition;++i){
@@ -126,6 +136,12 @@ public class DBBlock implements Iterable<Record> {
 		}
 		return count;
 	}
+
+	/**
+	 * checks if enough space is in the block to insert record
+	 * @param length is number of characters of a record
+	 * @return
+	 */
 	public int findSpace(int length) {
 		//TODO
 		int currPos = 0;
