@@ -23,15 +23,13 @@ public class StartMitgliederDB {
 			System.out.println("An Position " + newRecNum + " eingefuegter Datensatz: " + db.read(newRecNum));
 			Thread.sleep(2000);
 
-			/*
 			//modify (ID95 Steffi Brahms wird zu ID 95 Steffi Bach)
 			db.modify(db.findPos("95"), new Record("95;3;13;Bach;Steffi;04.04.06;01.02.16;;5"));
-			System.out.println(db);
-			 */
+			//System.out.println("\n" + db);
 
 			//delete the record with Mitgliedsnummer 95 
 			db.delete(db.findPos("125"));
-			System.out.println("\n" + db);
+			//System.out.println("\n" + db);
 			
 			
 	}

@@ -1,6 +1,8 @@
 package dbfileorga;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class MitgliederDB implements Iterable<Record>
@@ -179,13 +181,8 @@ public class MitgliederDB implements Iterable<Record>
 	 */
 	public void delete(int numRecord){
 
-		int blockNum = getBlockNumOfRecord(numRecord);
-		int recordsInBlocksBefore = recordsInBlockBefore(blockNum);
-
-		int startPos = this.db[blockNum].getStartPosOfRecord(numRecord-recordsInBlocksBefore);
-		int endPos = this.db[blockNum].getEndPosOfRecord(startPos+1);
-
-		this.db[blockNum].deleteRecord(startPos,endPos);
+		int[] startAndEnd = getStartAndEndFromSearchedRecord(numRecord);
+		this.db[getBlockNumOfRecord(numRecord)].deleteRecord(startAndEnd[0],startAndEnd[1]);
 
 	}
 	
@@ -196,7 +193,64 @@ public class MitgliederDB implements Iterable<Record>
 	 * 
 	 */
 	public void modify(int numRecord, Record record){
-		//TODO
+
+		int[] startAndEnd = getStartAndEndFromSearchedRecord(numRecord);
+		int length = startAndEnd[1]-startAndEnd[0];
+		int block = getBlockNumOfRecord(numRecord);
+		int numberInBlock = numRecord-getNumberOfRecordsTillBlock(block-1);
+		if (length >= record.length()) {
+			delete(numRecord);
+			db[block].insertRecordAtPos(startAndEnd[0]+1, record);
+		}
+		else {
+			if (db[block].countEmptySpaceInBlock()+read(numRecord).length()>= record.length()){
+				int numberOfRecords = db[block].getNumberOfRecords();
+				Record[] recordsInBlock = new Record[numberOfRecords+1];
+				// List<Record> recordsInBlock = new ArrayList<>();
+				for (int i = 0; i <= db[block].getNumberOfRecords(); i++){
+					if (numberInBlock == i) {
+						recordsInBlock[i] = record;
+					}
+					else {
+						recordsInBlock[i] = db[block].getRecord(i);
+					}
+				}
+				db[block].delete();
+				for (int i = 0; i < numberOfRecords; i++){
+					db[block].insertRecordAtTheEnd(recordsInBlock[i+1]);
+				}
+			}
+			else {
+				int numberOfRecords = getNumberOfRecords();
+				Record[] allRecords = new Record[numberOfRecords+1];
+				for (int i = 0; i <= numberOfRecords; i++){
+					allRecords[i] = read(i+1);
+				}
+				allRecords[numRecord-1] = record;
+				deleteDatabase();
+				for (int i = 0; i < numberOfRecords; i++){
+					appendRecord(allRecords[i]);
+				}
+			}
+		}
+
+	}
+
+	public int[] getStartAndEndFromSearchedRecord(int numRecord) {
+
+		int[] startAndEndPosition = new int[2];
+		int blockNum = getBlockNumOfRecord(numRecord);
+		int recordsInBlocksBefore = recordsInBlockBefore(blockNum);
+		startAndEndPosition[0] = this.db[blockNum].getStartPosOfRecord(numRecord-recordsInBlocksBefore);
+		startAndEndPosition[1] = this.db[blockNum].getEndPosOfRecord(startAndEndPosition[0]+1);
+		return startAndEndPosition;
+
+	}
+
+	public void deleteDatabase(){
+		for (DBBlock currBlock: db){
+			currBlock.delete();
+		}
 	}
 
 	

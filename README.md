@@ -16,7 +16,7 @@ Die Testfaelle unter `StartMitgliederDB` lauten wie folgt:
 * Lesen eines Eintrages anhand seiner Position: Die Datenbank sucht nach dem Eintrag mit der Position und gibt diesen aus - Gesonderte Ausgabe falls Position nicht vorhanden ist
 * Lesen eines Eintrages anhand der Mitgliedsnummer: Die Datenbank sucht nach dem Eintrag mit der Mitgliedsnummer und gibt diesen aus - Gesonderte Ausgabe falls Mitglied nicht gefunden wird
 * Einfuegen eines Eintrages: Das Programm durchlaeuft die Datenbank und fügt den Eintrag an erstmoeglicher Position ein (genuegend Stellen sind vorhanden) - Alternativ am Ende der Datenbank
-* Bearbeiten eines Eintrages: Das Programm sucht nach dem zu bearbeitenden Eintrag (= ID) und wechselt den Eintrag an Ort und Stelle (selber Position) aus, sofern die Attribute keine Mehrlänge aufweisen und/ oder der noetige Platz besteht. Ist der neu bearbeitete Eintrag laenger als dessen altes Gegenstueck, wird der alte Eintrag verworfen und ein Neuer in der Datenbank eingefuegt.
+* Bearbeiten eines Eintrages: Das Programm sucht nach dem zu bearbeitenden Eintrag (= ID) und wechselt den Eintrag an Ort und Stelle (selber Position) aus, sofern die Attribute keine Mehrlänge aufweisen und/ oder der noetige Platz besteht. Ist der neu bearbeitete Eintrag laenger als dessen altes Gegenstueck, wird der alte Eintrag verworfen und ein Neuer in der Datenbank an der bisherigen Stelle eingefuegt. Das Programm raeumt dabei Bloecke automatisch auf und drueckt Eintraege selbststaendig in den naechsten Block, sofern der Platz nicht ausreicht.
 * Loeschen eines Eintrages: Die Anwendung findet den Eintrag anhand der uebergebenen ID und loescht diesen. 
 
 # StartMitgliederDBOrdered

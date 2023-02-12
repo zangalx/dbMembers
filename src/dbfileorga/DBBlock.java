@@ -201,6 +201,27 @@ public class DBBlock implements Iterable<Record> {
 		return n+startPos;
 	}
 
+	public void cleanUpBlock(){
+		int lastcharacter = 0;
+		for (int i = 0; i<block.length; i++){
+			if (block[i] != DEFCHAR){
+				block[lastcharacter] = block[i];
+				lastcharacter ++;
+			}
+		}
+
+	}
+
+	public int countEmptySpaceInBlock(){
+		int counter = 0;
+		for (int i = 0; i <block.length;++i){
+			if (block[i] == DEFCHAR){
+				counter++;
+			}
+		}
+		return counter;
+	}
+
 	private int findEmptySpace(){
 		for (int i = 0; i <block.length;++i){
 			if (block[i] == DEFCHAR){
