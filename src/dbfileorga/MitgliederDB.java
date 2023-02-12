@@ -1,8 +1,6 @@
 package dbfileorga;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 public class MitgliederDB implements Iterable<Record>
@@ -206,7 +204,6 @@ public class MitgliederDB implements Iterable<Record>
 			if (db[block].countEmptySpaceInBlock()+read(numRecord).length()>= record.length()){
 				int numberOfRecords = db[block].getNumberOfRecords();
 				Record[] recordsInBlock = new Record[numberOfRecords+1];
-				// List<Record> recordsInBlock = new ArrayList<>();
 				for (int i = 0; i <= db[block].getNumberOfRecords(); i++){
 					if (numberInBlock == i) {
 						recordsInBlock[i] = record;
