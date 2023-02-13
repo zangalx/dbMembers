@@ -27,4 +27,4 @@ Die Testfaelle unter `StartMitgliederDBOrdered` sind analog deren in `StartMitgl
 * Loeschen eines Eintrages
 
 # Besonderheiten
-Bei der Ausfuehrung wurden Thread-Sleep Pausen eingefuegt, um eine uebersichtliche Ausgabe zu gewaehrleisten
+Bei der Ausfuehrung wurden Thread-Sleep Pausen eingefuegt, um eine uebersichtliche Ausgabe zu gewaehrleisten. Ggf. muss fuer die Klasse MitgliederDBTest der JUnit-4 Import dem Classpath hinzugefuegt werden. Die Entwicklungsumgebung schlaegt diese Operation durch Aufruf des Kontextmenues automatisch vor.
