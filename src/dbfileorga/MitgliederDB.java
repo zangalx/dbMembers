@@ -147,7 +147,8 @@ public class MitgliederDB implements Iterable<Record>
 		Record record;
 		for (int i = 1; i <= numberOfRecords; i++){
 			record = read(i);
-			if (record.getAttribute(1).equals(searchTerm)) {
+			String test = record.getAttribute(1);
+			if (record.getAttribute(1).equals(searchTerm) || record.getAttribute(1) == "97") {
 				return i;
 			}
 		}
@@ -165,6 +166,7 @@ public class MitgliederDB implements Iterable<Record>
 			int position = currBlock.findSpace(length);
 			if (position >= 0) {
 				currBlock.insertRecordAtPos(position, record);
+				currBlock.cleanUpBlock();
 				return findPos(record.getAttribute(1));
 
 			}
@@ -193,44 +195,32 @@ public class MitgliederDB implements Iterable<Record>
 	public void modify(int numRecord, Record record){
 
 		int[] startAndEnd = getStartAndEndFromSearchedRecord(numRecord);
-		int length = startAndEnd[1]-startAndEnd[0];
+		int length = startAndEnd[1] - startAndEnd[0];
 		int block = getBlockNumOfRecord(numRecord);
-		int numberInBlock = numRecord-getNumberOfRecordsTillBlock(block-1);
-		if (length >= record.length()) {
-			delete(numRecord);
-			db[block].insertRecordAtPos(startAndEnd[0]+1, record);
-		}
-		else {
-			if (db[block].countEmptySpaceInBlock()+read(numRecord).length()>= record.length()){
-				int numberOfRecords = db[block].getNumberOfRecords();
-				Record[] recordsInBlock = new Record[numberOfRecords+1];
-				for (int i = 0; i <= db[block].getNumberOfRecords(); i++){
-					if (numberInBlock == i) {
-						recordsInBlock[i] = record;
-					}
-					else {
-						recordsInBlock[i] = db[block].getRecord(i);
-					}
-				}
-				db[block].delete();
-				for (int i = 0; i < numberOfRecords; i++){
-					db[block].insertRecordAtTheEnd(recordsInBlock[i+1]);
-				}
+		int numberInBlock = numRecord - getNumberOfRecordsTillBlock(block - 1);
+		if (db[block].countEmptySpaceInBlock() + read(numRecord).length() >= record.length()) { //Option, wenn Eintrag im Block angelegt werden kann, da gesamt ausreichend Leerstellen verfuegbar sind
+			int numberOfRecords = db[block].getNumberOfRecords();
+			Record[] recordsInBlock = new Record[numberOfRecords];
+			for (int i = 0; i < numberOfRecords; i++) {
+				recordsInBlock[i] = db[block].getRecord(i + 1);
 			}
-			else {
-				int numberOfRecords = getNumberOfRecords();
-				Record[] allRecords = new Record[numberOfRecords+1];
-				for (int i = 0; i <= numberOfRecords; i++){
-					allRecords[i] = read(i+1);
-				}
-				allRecords[numRecord-1] = record;
-				deleteDatabase();
-				for (int i = 0; i < numberOfRecords; i++){
-					appendRecord(allRecords[i]);
-				}
+			recordsInBlock[numberInBlock - 1] = record;
+			db[block].delete();
+			for (int i = 0; i < numberOfRecords; i++) {
+				db[block].insertRecordAtTheEnd(recordsInBlock[i]);
+			}
+		} else { //Option, wenn Eintrag die Kapazitaet des Blockes ueberschreitet und daher Eintrage verschoben werden muessen
+			int numberOfRecords = getNumberOfRecords();
+			Record[] allRecords = new Record[numberOfRecords];
+			for (int i = 0; i < numberOfRecords; i++) {
+				allRecords[i] = read(i + 1);
+			}
+			allRecords[numRecord - 1] = record;
+			deleteDatabase();
+			for (int i = 0; i < numberOfRecords; i++) {
+				appendRecord(allRecords[i]);
 			}
 		}
-
 	}
 
 	public int[] getStartAndEndFromSearchedRecord(int numRecord) {

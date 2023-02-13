@@ -198,6 +198,7 @@ public class DBBlock implements Iterable<Record> {
 			block[i+startPos] = record.charAt(i);
 		}
 		block[n+startPos]= RECDEL;
+		cleanUpBlock();
 		return n+startPos;
 	}
 

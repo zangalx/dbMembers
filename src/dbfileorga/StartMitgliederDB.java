@@ -12,24 +12,24 @@ public class StartMitgliederDB {
 			else {System.out.println("Gesuchter Eintrag anhand Position: " + rec);}
 			Thread.sleep(2000);
 			
-			//find and read a record with a given Mitgliedesnummer e.g 95
-			rec = db.read(db.findPos("125"));
+			// find and read a record with a given Mitgliedesnummer e.g 95
+			rec = db.read(db.findPos("95"));
 			if (rec == null) {System.out.println("Mitglied mit gesuchter Nummer nicht vorhanden!");}
 			else {System.out.println("Gesuchter Eintrag anhand Mitgliedsnummer: " + rec);}
 			Thread.sleep(2000);
 
-			//insert Hans Meier
+			// insert Hans Meier
 			int newRecNum = db.insert(new Record("122;2;44;Meier;Hans;07.05.01;01.03.10;120;15"));
 			System.out.println("An Position " + newRecNum + " eingefuegter Datensatz: " + db.read(newRecNum));
 			Thread.sleep(2000);
 
-			//modify (ID95 Steffi Brahms wird zu ID 95 Steffi Bach)
+			// modify (ID95 Steffi Brahms wird zu ID 95 Steffi Bach)
 			db.modify(db.findPos("95"), new Record("95;3;13;Bach;Steffi;04.04.06;01.02.16;;5"));
 			//System.out.println("\n" + db);
 
 			//delete the record with Mitgliedsnummer 95 
-			db.delete(db.findPos("125"));
-			//System.out.println("\n" + db);
+			db.delete(db.findPos("95"));
+			System.out.println("\n" + db);
 			
 			
 	}
